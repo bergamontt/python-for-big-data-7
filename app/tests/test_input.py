@@ -76,6 +76,34 @@ class TestInput(unittest.TestCase):
         file_content = read_file_with_python(self.txt_empty_file)
         self.assertEqual("", file_content)
 
+    def test_read_file_with_pandas_callable(self):
+        """
+        Test whether read_file_with_python is callable.
+        """
+        self.assertTrue(callable(read_file_with_pandas))
+
+    def test_read_file_with_pandas(self):
+        """
+        Test whether read_file_with_pandas returns the proper file content
+        """
+        file_content = read_file_with_pandas(self.cvs_test_file)
+        expected_content = pd.read_csv(self.cvs_test_file).to_string()
+        self.assertEqual(file_content, expected_content)
+
+    def test_read_file_with_pandas_non_existing_file(self):
+        """
+        Test whether read_file_with_pandas rises an error when reading from non-existing file.
+        """
+        with self.assertRaises(FileNotFoundError):
+            read_file_with_pandas("data/non-existing.csv")
+
+    def test_read_file_with_pandas_empty_file(self):
+        """
+        Test whether read_file_with_pandas returns empty str when reading from empty file.
+        """
+        with self.assertRaises(pd.errors.EmptyDataError):
+            read_file_with_pandas(self.cvs_empty_file)
+
     def tearDown(self):
         """
         Clean up files after testing
