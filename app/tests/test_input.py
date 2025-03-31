@@ -49,6 +49,33 @@ class TestInput(unittest.TestCase):
             user_input = read_input_from_console()
             self.assertEqual(user_input, "")
 
+    def test_read_file_with_python_callable(self):
+        """
+        Test whether read_file_with_python is callable.
+        """
+        self.assertTrue(callable(read_file_with_python))
+
+    def test_read_file_with_python_returns_file_content(self):
+        """
+        Test whether read_file_with_python returns the proper file content
+        """
+        file_content = read_file_with_python(self.txt_test_file)
+        self.assertEqual(file_content, self.txt_test_file_content)
+
+    def test_read_file_with_python_non_existing_file(self):
+        """
+        Test whether read_file_with_python rises an error when reading from non-existing file.
+        """
+        with self.assertRaises(FileNotFoundError):
+            read_file_with_python("data/non-existing.csv")
+
+    def test_read_file_with_python_empty_file(self):
+        """
+        Test whether read_file_with_python returns empty str when reading from empty file.
+        """
+        file_content = read_file_with_python(self.txt_empty_file)
+        self.assertEqual("", file_content)
+
     def tearDown(self):
         """
         Clean up files after testing
