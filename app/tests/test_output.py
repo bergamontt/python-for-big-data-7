@@ -39,6 +39,41 @@ class TestOutput(unittest.TestCase):
             self.fail(e)
         self.assertTrue(True)
 
+    def test_write_to_file_with_python_callable(self):
+        """
+        Test whether write_to_file_with_python is callable
+        """
+        self.assertTrue(callable(write_to_file_with_python))
+
+    def test_write_to_file_with_python_normal_output(self):
+        """
+        Test whether write_to_file_with_python writes output str in file
+        """
+        output = "Hello World"
+        write_to_file_with_python(self.test_file, output)
+        file_contents = read_file_with_python(self.test_file)
+        self.assertEqual(file_contents, output)
+
+    def test_write_to_file_with_python_empty_output(self):
+        """
+        Test whether write_to_file_with_python writes empty output str in file
+        """
+        output = ""
+        write_to_file_with_python(self.test_file, output)
+        file_contents = read_file_with_python(self.test_file)
+        self.assertEqual(file_contents, output)
+
+    def test_write_to_file_with_python_empty_overwrites(self):
+        """
+        Test whether write_to_file_with_python overwrites content in file with new
+        """
+        output = "Hello World"
+        write_to_file_with_python(self.test_file, output)
+        new_output = "Goodbye, World!"
+        write_to_file_with_python(self.test_file, new_output)
+        file_contents = read_file_with_python(self.test_file)
+        self.assertEqual(file_contents, new_output)
+
     def tearDown(self):
         """
         Clean up files after testing
